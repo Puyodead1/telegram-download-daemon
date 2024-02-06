@@ -18,6 +18,7 @@ from sessionManager import getSession, saveSession
 from telethon import TelegramClient, events, __version__
 from telethon.tl.types import PeerChannel, DocumentAttributeFilename, DocumentAttributeVideo
 import logging
+import humanize
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s]%(name)s:%(message)s',
                     level=logging.WARNING)
@@ -166,7 +167,7 @@ async def set_progress(filename, message, received, total):
         return
     percentage = math.trunc(received / total * 10000) / 100
 
-    progress_message= "{0} % ({1} / {2})".format(percentage, received, total)
+    progress_message= "{0} % ({1} / {2})".format(percentage, humanize.naturalsize(received, binary=True), humanize.naturalsize(total, binary=True))
     in_progress[filename] = progress_message
 
     currentTime=time.time()
